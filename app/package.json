@@ -21,6 +21,7 @@
     "framer-motion": "^11.1.7",
     "json-server": "^1.0.0-alpha.23",
     "react": "^18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.1.0",
     "react-query": "^3.39.3",
@@ -54,5 +55,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-copy-to-clipboard": "^5.0.7"
   }
 }

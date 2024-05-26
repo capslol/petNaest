@@ -19,6 +19,11 @@
       "email": "123@1234",
       "password": "$2a$10$AmgUIQTVC9HFsJ1Cllks7OywxGUZt8Zw8CtCiCtoXAvW9euyMl/Le",
       "id": 4
+    },
+    {
+      "email": "arinavasch@gmail.com",
+      "password": "$2a$10$FnC82OQqs3Vhi.zmI90X5.15s5koe3xMDWA/rkUHwbjhbUDzPRl6m",
+      "id": 5
     }
   ]
 }

@@ -1,44 +1,57 @@
-import React, { useState } from 'react';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {login, registerUser} from '../services/auth';
+import React, {ChangeEvent, useState} from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import CopyValue from '../helpers/CopyBlock';
+import {
+    LoginContainer,
+    LoginForm,
+    FormGroup,
+    FormLabel,
+    FormInput,
+    LoginButton,
+    Title
+} from '../styles/LoginPageStyles';
 
-const Login = () => {
+const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-
-    const queryClient = useQueryClient();
-
-    const mutation = useMutation({
-        mutationFn: login,
-        onSuccess: (data) => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries({queryKey: ['users']});
-        },
-    });
+    const { login } = useAuth();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        mutation.mutate({ email, password });
+        login(email, password);
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
+        <LoginContainer>
+            <LoginForm onSubmit={handleSubmit}>
+                <Title>Login</Title>
+                <FormGroup>
+                    <FormLabel>Email</FormLabel>
+                    <p>arinavasch@gmail.com</p>
+                    <CopyValue />
+
+                    <FormInput
+                        type="email"
+                        value={email}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <FormLabel>Password</FormLabel>
+                    <FormInput
+                        type="password"
+                        value={password}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                        required
+                    />
+                </FormGroup>
+                <LoginButton type="submit">Login</LoginButton>
+            </LoginForm>
+        </LoginContainer>
     );
 };
 
-export default Login;
+export default LoginPage;
