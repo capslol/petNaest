@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { colors, fonts, mixins } from '../styles/styles';
+import {colors, fonts, mixins} from '../styles/styles';
 
 const Container = styled.div`
   padding: 16px;
@@ -25,12 +25,14 @@ const UserInfo = styled.div`
   align-items: center;
 `;
 
-const Avatar = styled.img`
+const Avatar = styled.div<{ imageUrl: string }>`
   width: 50px;
   height: 50px;
   border-radius: 8px;
   margin-right: 12px;
   background-color: lightYellow;
+  background-image: url(${props => props.imageUrl});
+  background-size: cover;
 `;
 
 const Greeting = styled.div`
@@ -132,15 +134,15 @@ const HomePage = () => {
         <Container>
             <Header>
                 <UserInfo>
-                    <Avatar src="/avatar1.png" alt="Avatar" />
+                    <Avatar imageUrl="/avatar1.png" />
                     <Greeting>
                         <UserName>Hi, Oliver!</UserName>
                         <Location>Bangalore, India</Location>
                     </Greeting>
                 </UserInfo>
                 <IconGroup>
-                    <Icon src="search_icon_url" alt="Search" />
-                    <Icon src="notification_icon_url" alt="Notifications" />
+                    <Icon src="search_icon_url" alt="Search"/>
+                    <Icon src="notification_icon_url" alt="Notifications"/>
                 </IconGroup>
             </Header>
             <Section>
@@ -157,19 +159,19 @@ const HomePage = () => {
                 <SectionTitle>Services</SectionTitle>
                 <ServicesGrid>
                     <ServiceCard>
-                        <ServiceIcon src="daycare_icon_url" alt="Daycare" />
+                        <ServiceIcon src="daycare_icon_url" alt="Daycare"/>
                         <ServiceName>Daycare</ServiceName>
                     </ServiceCard>
                     <ServiceCard>
-                        <ServiceIcon src="health_icon_url" alt="Health" />
+                        <ServiceIcon src="health_icon_url" alt="Health"/>
                         <ServiceName>Health</ServiceName>
                     </ServiceCard>
                     <ServiceCard>
-                        <ServiceIcon src="grooming_icon_url" alt="Grooming" />
+                        <ServiceIcon src="grooming_icon_url" alt="Grooming"/>
                         <ServiceName>Grooming</ServiceName>
                     </ServiceCard>
                     <ServiceCard>
-                        <ServiceIcon src="tracking_icon_url" alt="Tracking" />
+                        <ServiceIcon src="tracking_icon_url" alt="Tracking"/>
                         <ServiceName>Tracking</ServiceName>
                     </ServiceCard>
                 </ServicesGrid>
