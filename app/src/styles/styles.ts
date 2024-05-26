@@ -8,6 +8,7 @@ export const colors = {
     gray: '#888888',
     lightGray: '#E0E0E0',
     lightBackground: '#F0F0F0',
+    lightYellow: '#FAE186'
 };
 
 export const fonts = {
@@ -46,9 +47,9 @@ const UserInfo = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
   margin-right: 12px;
 `;
 

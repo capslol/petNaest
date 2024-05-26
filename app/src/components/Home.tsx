@@ -26,10 +26,11 @@ const UserInfo = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
   margin-right: 12px;
+  background-color: lightYellow;
 `;
 
 const Greeting = styled.div`
@@ -82,8 +83,8 @@ const PetList = styled.div`
 
 const PetItem = styled.div`
   flex: 0 0 auto;
-  width: 72px;
-  height: 72px;
+  width: 60px;
+  height: 60px;
   background-color: ${colors.lightBackground};
   border-radius: 8px;
   display: flex;
@@ -115,8 +116,8 @@ const ServiceCard = styled.div`
 `;
 
 const ServiceIcon = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-bottom: 8px;
 `;
 
@@ -131,7 +132,7 @@ const HomePage = () => {
         <Container>
             <Header>
                 <UserInfo>
-                    <Avatar src="avatar_url" alt="Avatar" />
+                    <Avatar src="/avatar1.png" alt="Avatar" />
                     <Greeting>
                         <UserName>Hi, Oliver!</UserName>
                         <Location>Bangalore, India</Location>

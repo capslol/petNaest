@@ -1,26 +1,6 @@
 {
   "users": [
     {
-      "email": "222@2222",
-      "password": "$2a$10$8OwEVDGO4trOC8PiP38OtenpDQGVSsv3GK6TIaOCsGXhePYZlDj22",
-      "id": 1
-    },
-    {
-      "email": "333@333",
-      "password": "$2a$10$Wy17DgyYVz7gVuMnp2LkauIrTvXxNySqoEF8DQ3StlPROtu9/Rwga",
-      "id": 2
-    },
-    {
-      "email": "123@123",
-      "password": "$2a$10$N2a7LvxXL8SMT/OAoqxr1OjBEgKQf/IQck3GBOKckHnMs1It99KbW",
-      "id": 3
-    },
-    {
-      "email": "123@1234",
-      "password": "$2a$10$AmgUIQTVC9HFsJ1Cllks7OywxGUZt8Zw8CtCiCtoXAvW9euyMl/Le",
-      "id": 4
-    },
-    {
       "email": "arinavasch@gmail.com",
       "password": "$2a$10$FnC82OQqs3Vhi.zmI90X5.15s5koe3xMDWA/rkUHwbjhbUDzPRl6m",
       "id": 5

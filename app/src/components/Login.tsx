@@ -29,9 +29,7 @@ const LoginPage = () => {
                 <Title>Login</Title>
                 <FormGroup>
                     <FormLabel>Email</FormLabel>
-                    <p>arinavasch@gmail.com</p>
-                    <CopyValue />
-
+                    {/*<CopyValue />*/}
                     <FormInput
                         type="email"
                         value={email}
