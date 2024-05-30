@@ -1,8 +1,13 @@
-// src/components/HomePage.tsx
-
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {colors, fonts, mixins} from '../styles/styles';
+import {useQuery} from "@tanstack/react-query";
+import {getUserData} from "../services/auth";
+import { Box, Spinner} from "@chakra-ui/react";
+import {Pet} from "../types/data";
+import {useAuth} from "../contexts/AuthContext";
+import { CiSearch  } from "react-icons/ci";
+import { PiBellLight } from "react-icons/pi";
 
 const Container = styled.div`
   padding: 16px;
@@ -53,9 +58,29 @@ const Location = styled.p`
   font-family: ${fonts.primary};
 `;
 
+const MenuIcon = styled.div`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.lightGray};
+  border-radius: 8px;
+`
+const StyledCiSearch = styled(CiSearch)`
+    height: 24px;
+    width: 24px;
+`;
+const StyledPiBellLight = styled(PiBellLight)`
+    height: 24px;
+    width: 24px;
+`;
+
 const IconGroup = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 90px;
 `;
 
 const Icon = styled.img`
@@ -81,24 +106,33 @@ const SectionTitle = styled.h3`
 const PetList = styled.div`
   display: flex;
   overflow-x: auto;
+  overflow-y: hidden;
+  min-height: 85px;
 `;
 
 const PetItem = styled.div`
   flex: 0 0 auto;
   width: 60px;
   height: 60px;
-  background-color: ${colors.lightBackground};
+  background-color: ${colors.lightBlue};
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 12px;
   font-size: 24px;
+  position: relative;
+`;
+const PetName = styled.span`
+  font-size: 16px;
+  position: absolute;
+  bottom: -40%;
 `;
 
 const AddPet = styled(PetItem)`
-  background-color: ${colors.lightGray};
-  color: ${colors.gray};
+  background-color: ${colors.lightYellow};
+  color: ${colors.yellow};
+  border: 1px dashed ${colors.yellow};
 `;
 
 const ServicesGrid = styled.div`
@@ -130,29 +164,53 @@ const ServiceName = styled.p`
 `;
 
 const HomePage = () => {
+    const { logout } = useAuth();
+    const { data: user, isLoading, isError } = useQuery({
+        queryKey: ['userData'],
+        queryFn: getUserData,
+    });
+
+    useEffect(() => {
+        if (isError) {
+            logout();
+        }
+    }, [isError, logout]);
+
+    if (isLoading) {
+        return (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <Spinner size="xl" />
+            </Box>
+        );
+    }
+
+    if (isError) {
+        return null;
+    }
     return (
         <Container>
             <Header>
                 <UserInfo>
-                    <Avatar imageUrl="/avatar1.png" />
+                    <Avatar imageUrl="img/avatar1.png"/>
                     <Greeting>
-                        <UserName>Hi, Oliver!</UserName>
-                        <Location>Bangalore, India</Location>
+                        <UserName>Привет, {user.name}!</UserName>
+                        {/*<Location>Bangalore, India</Location>*/}
                     </Greeting>
                 </UserInfo>
                 <IconGroup>
-                    <Icon src="search_icon_url" alt="Search"/>
-                    <Icon src="notification_icon_url" alt="Notifications"/>
+                    <MenuIcon>
+                        <StyledCiSearch/>
+                    </MenuIcon>
+                    <MenuIcon>
+                        <StyledPiBellLight/>
+                    </MenuIcon>
                 </IconGroup>
             </Header>
             <Section>
                 <SectionTitle>Your Pets</SectionTitle>
                 <PetList>
                     <AddPet>+</AddPet>
-                    <PetItem>🐶</PetItem>
-                    <PetItem>🐱</PetItem>
-                    <PetItem>🐟</PetItem>
-                    <PetItem>🐹</PetItem>
+                    {user.pets.map((pet: Pet) => <PetItem key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
                 </PetList>
             </Section>
             <Section>
@@ -178,6 +236,6 @@ const HomePage = () => {
             </Section>
         </Container>
     );
-};
+}
 
 export default HomePage;

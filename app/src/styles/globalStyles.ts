@@ -13,7 +13,7 @@ const GlobalStyles = createGlobalStyle`
     height: 100%;
     font-family: 'Roboto', sans-serif;
     background-color: #F7F7F7;
-    margin: 0;
+    
   }
 
   /* Additional global styles */

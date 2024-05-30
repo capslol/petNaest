@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {getUsers, login, registerUser} from '../services/auth';
+import { login, registerUser} from '../services/auth';
 import {Navigate, useNavigate} from "react-router-dom";
 
 const Register = () => {

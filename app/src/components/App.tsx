@@ -6,19 +6,24 @@ import Home from "./Home";
 import GlobalStyles from '../styles/globalStyles';
 import {AuthProvider, useAuth} from "../contexts/AuthContext";
 import SecureRoute from "../routes/SecureRoute";
+import {ChakraProvider} from "@chakra-ui/react";
 
 const App: FC = () => {
     return (
-        <AuthProvider>
+        <ChakraProvider>
+            <AuthProvider>
+                <GlobalStyles/>
                 <Routes>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route element={<SecureRoute />}>
-                        <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route element={<SecureRoute/>}>
+                        <Route path="/" element={<Home/>}/>
                     </Route>
-                    <Route path="*" element={<Navigate to="/login" />} />
+                    <Route path="*" element={<Navigate to="/login"/>}/>
                 </Routes>
-        </AuthProvider>
+            </AuthProvider>
+        </ChakraProvider>
+
     );
 };
 

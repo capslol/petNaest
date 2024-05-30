@@ -1,6 +1,28 @@
-export type TodoState = 'all' | 'open' | 'completed'
-export interface ITodo {
+export interface Vaccine {
+    name: string;
+}
+
+export interface Document {
+    fileName: string;
+}
+
+export interface Pet {
     id: number;
-    title: string;
-    completed: boolean;
+    name: string;
+    age: number;
+    breed: string;
+    documents: Document[];
+    vaccines: Vaccine[];
+}
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    pets: Pet[];
+}
+
+export interface UsersResponse {
+    users: User[];
 }

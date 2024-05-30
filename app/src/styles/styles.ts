@@ -6,9 +6,11 @@ export const colors = {
     background: '#F7F7F7',
     white: '#FFFFFF',
     gray: '#888888',
-    lightGray: '#E0E0E0',
+    lightGray: '#F2F2F2',
     lightBackground: '#F0F0F0',
-    lightYellow: '#FAE186'
+    lightYellow: '#FBF0C2',
+    yellow: '#FFC800',
+    lightBlue: '#D1E7FC'
 };
 
 export const fonts = {

@@ -29,7 +29,7 @@ const LoginPage = () => {
                 <Title>Login</Title>
                 <FormGroup>
                     <FormLabel>Email</FormLabel>
-                    {/*<CopyValue />*/}
+                    <CopyValue />
                     <FormInput
                         type="email"
                         value={email}
