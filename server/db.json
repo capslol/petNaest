@@ -12,7 +12,8 @@
           "age": 0.7,
           "breed": "Frenchie",
           "documents": ["vet_record.pdf"],
-          "vaccines": ["rabies", "distemper"]
+          "vaccines": ["rabies", "distemper"],
+          "plans": ["1", "2"]
         }
       ]
     }

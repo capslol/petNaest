@@ -27,12 +27,22 @@ export const mixins = {
   `,
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 16px;
   background-color: ${colors.background};
 `;
+export const Button = styled.div`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${colors.lightGray};
+  border-radius: 8px;
+`
 
-const Header = styled.div`
+
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,11 +58,14 @@ const UserInfo = styled.div`
   align-items: center;
 `;
 
-const Avatar = styled.img`
+export const Avatar = styled.div<{ imageUrl: string }>`
   width: 50px;
   height: 50px;
   border-radius: 8px;
   margin-right: 12px;
+  background-color: lightYellow;
+  background-image: url(${props => props.imageUrl});
+  background-size: cover;
 `;
 
 const Greeting = styled.div`
@@ -84,7 +97,7 @@ const Icon = styled.img`
   margin-left: 16px;
 `;
 
-const Section = styled.section`
+export const Section = styled.section`
   background-color: ${colors.white};
   padding: 16px;
   border-radius: 8px;

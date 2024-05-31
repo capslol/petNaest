@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
-import {colors, fonts, mixins} from '../styles/styles';
+import {colors, Container, fonts, Header, Button, mixins, Section, Avatar} from '../styles/styles';
 import {useQuery} from "@tanstack/react-query";
 import {getUserData} from "../services/auth";
 import { Box, Spinner} from "@chakra-ui/react";
@@ -8,37 +8,15 @@ import {Pet} from "../types/data";
 import {useAuth} from "../contexts/AuthContext";
 import { CiSearch  } from "react-icons/ci";
 import { PiBellLight } from "react-icons/pi";
+import {useNavigate} from "react-router-dom";
 
-const Container = styled.div`
-  padding: 16px;
-  background-color: ${colors.background};
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: ${colors.white};
-  border-radius: 8px;
-  ${mixins.boxShadow};
-  margin-bottom: 16px;
-`;
 
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const Avatar = styled.div<{ imageUrl: string }>`
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  margin-right: 12px;
-  background-color: lightYellow;
-  background-image: url(${props => props.imageUrl});
-  background-size: cover;
-`;
+
 
 const Greeting = styled.div`
   display: flex;
@@ -58,15 +36,7 @@ const Location = styled.p`
   font-family: ${fonts.primary};
 `;
 
-const MenuIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid ${colors.lightGray};
-  border-radius: 8px;
-`
+
 const StyledCiSearch = styled(CiSearch)`
     height: 24px;
     width: 24px;
@@ -89,13 +59,7 @@ const Icon = styled.img`
   margin-left: 16px;
 `;
 
-const Section = styled.section`
-  background-color: ${colors.white};
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  ${mixins.boxShadow};
-`;
+
 
 const SectionTitle = styled.h3`
   font-size: 18px;
@@ -164,6 +128,7 @@ const ServiceName = styled.p`
 `;
 
 const HomePage = () => {
+    const navigate = useNavigate()
     const { logout } = useAuth();
     const { data: user, isLoading, isError } = useQuery({
         queryKey: ['userData'],
@@ -198,19 +163,19 @@ const HomePage = () => {
                     </Greeting>
                 </UserInfo>
                 <IconGroup>
-                    <MenuIcon>
+                    <Button>
                         <StyledCiSearch/>
-                    </MenuIcon>
-                    <MenuIcon>
+                    </Button>
+                    <Button>
                         <StyledPiBellLight/>
-                    </MenuIcon>
+                    </Button>
                 </IconGroup>
             </Header>
             <Section>
                 <SectionTitle>Your Pets</SectionTitle>
                 <PetList>
                     <AddPet>+</AddPet>
-                    {user.pets.map((pet: Pet) => <PetItem key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
+                    {user.pets.map((pet: Pet) => <PetItem onClick={() => navigate('/petCard')} key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
                 </PetList>
             </Section>
             <Section>
