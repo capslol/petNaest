@@ -38,6 +38,13 @@ const PetCard = () => {
         queryKey: ['userData'],
         queryFn: getUserData,
     });
+
+    const { petId } = useParams();
+    const { data: pet, isLoading, isError } = useQuery({
+        queryKey: ['petData', petId],
+        queryFn: () => getPetData(petId),
+    });
+
     useEffect(() => {
         if (isError) {
             logout();

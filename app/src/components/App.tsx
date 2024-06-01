@@ -19,7 +19,7 @@ const App: FC = () => {
                     <Route path="/register" element={<Register/>}/>
                     <Route element={<SecureRoute/>}>
                         <Route path="/" element={<Home/>}/>
-                        <Route path="/petCard" element={<PetCard/>}/>
+                        <Route path="/petCard/:petId" element={<PetCard/>}/>
                     </Route>
                     <Route path="*" element={<Navigate to="/login"/>}/>
                 </Routes>
