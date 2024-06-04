@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useQuery} from "@tanstack/react-query";
-import {getUserData} from "../services/auth";
+import {getPetData, getUserData} from "../services/auth";
 import {Box, Spinner} from "@chakra-ui/react";
 import {useAuth} from "../contexts/AuthContext";
 import GoBackButton from "./GoBackButton";
@@ -8,6 +8,7 @@ import {Avatar, Button, colors, Container, Header, mixins, Section} from "../sty
 import { BsThreeDots } from "react-icons/bs";
 import {styled} from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
+import {useParams} from "react-router-dom";
 
 
 const PetInfo = styled.section`
@@ -34,15 +35,16 @@ const PetBreed = styled.p`
 const PetCard = () => {
     const { logout } = useAuth();
 
-    const { data: user, isLoading, isError } = useQuery({
-        queryKey: ['userData'],
-        queryFn: getUserData,
-    });
+
 
     const { petId } = useParams();
+    const petIdNumber = petId ? parseInt(petId) : undefined
+    console.log(petId)
+    console.log(petIdNumber)
+
     const { data: pet, isLoading, isError } = useQuery({
         queryKey: ['petData', petId],
-        queryFn: () => getPetData(petId),
+        queryFn: () => getPetData(1),
     });
 
     useEffect(() => {

@@ -152,6 +152,10 @@ const HomePage = () => {
     if (isError) {
         return null;
     }
+
+    const handlePetClick = (petId: number) => {
+        navigate(`/pet/${petId}`);
+    };
     return (
         <Container>
             <Header>
@@ -175,7 +179,7 @@ const HomePage = () => {
                 <SectionTitle>Your Pets</SectionTitle>
                 <PetList>
                     <AddPet>+</AddPet>
-                    {user.pets.map((pet: Pet) => <PetItem onClick={() => navigate('/petCard')} key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
+                    {user.pets.map((pet: Pet) => <PetItem onClick={() => handlePetClick(pet.id)} key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
                 </PetList>
             </Section>
             <Section>
