@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {Document, Pet, Plan, User, Vaccine} from "../types/data";
 
 const API_URL = 'http://localhost:5000';
@@ -57,7 +57,7 @@ export const getPetData = async (id: number | undefined) => {
     return pet;
 };
 
-export const updatePetData = async ({ id, name, breed,  }: PetUpdateData) => {
+export const updatePetData = async ({ id, name, breed }: PetUpdateData): Promise<User> => {
     const token = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
     const response = await axios.get(`${API_URL}/users/${userId}`, {
@@ -66,8 +66,8 @@ export const updatePetData = async ({ id, name, breed,  }: PetUpdateData) => {
         },
     });
 
-    const user = response.data;
-    const petIndex = user.pets.findIndex((pet: Pet) => pet.id === id);
+    const user: User = response.data;
+    const petIndex = user.pets.findIndex((pet) => pet.id === id);
     if (petIndex === -1) {
         throw new Error('Pet not found');
     }
@@ -78,13 +78,15 @@ export const updatePetData = async ({ id, name, breed,  }: PetUpdateData) => {
 
     // Отправляем обновленные данные пользователя на сервер
     const updateResponse = await axios.put(`${API_URL}/users/${userId}`, user, {
+
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
-
-    return updateResponse.data.pets[petIndex];
+    console.log(updateResponse.data)
+    return updateResponse.data;
 };
+
 
 export const registerUser = async (user: { email: string; password: string }) => {
     const response = await axios.post(`${API_URL}/register`, user);

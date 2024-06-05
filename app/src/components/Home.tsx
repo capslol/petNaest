@@ -4,11 +4,12 @@ import {colors, Container, fonts, Header, Button, mixins, Section, Avatar} from 
 import {useQuery} from "@tanstack/react-query";
 import {getUserData} from "../services/auth";
 import { Box, Spinner} from "@chakra-ui/react";
-import {Pet} from "../types/data";
+import {Pet, User} from "../types/data";
 import {useAuth} from "../contexts/AuthContext";
 import { CiSearch  } from "react-icons/ci";
 import { PiBellLight } from "react-icons/pi";
 import {useNavigate} from "react-router-dom";
+import {AxiosResponse} from "axios";
 
 
 const UserInfo = styled.div`
@@ -130,7 +131,7 @@ const ServiceName = styled.p`
 const HomePage = () => {
     const navigate = useNavigate()
     const { logout } = useAuth();
-    const { data: user, isLoading, isError } = useQuery({
+    const { data: user, isLoading, isError } = useQuery<User>({
         queryKey: ['userData'],
         queryFn: getUserData,
     });
@@ -162,7 +163,7 @@ const HomePage = () => {
                 <UserInfo>
                     <Avatar imageUrl="img/avatar1.png"/>
                     <Greeting>
-                        <UserName>Привет, {user.name}!</UserName>
+                        <UserName>Привет, {user?.name}!</UserName>
                         {/*<Location>Bangalore, India</Location>*/}
                     </Greeting>
                 </UserInfo>
@@ -179,7 +180,7 @@ const HomePage = () => {
                 <SectionTitle>Your Pets</SectionTitle>
                 <PetList>
                     <AddPet>+</AddPet>
-                    {user.pets.map((pet: Pet) => <PetItem onClick={() => handlePetClick(pet.id)} key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
+                    {user?.pets.map((pet: Pet) => <PetItem onClick={() => handlePetClick(pet.id)} key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
                 </PetList>
             </Section>
             <Section>

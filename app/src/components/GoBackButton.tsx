@@ -19,7 +19,7 @@ const StyledGoBackButton = styled.div`
 const GoBackButton = () => {
     const navigate = useNavigate()
     return (
-        <StyledGoBackButton onClick={() => navigate(-1)}>
+        <StyledGoBackButton onClick={() => navigate(-1)} aria-label="Go back">
             <IoChevronBackOutline />
 
         </StyledGoBackButton>

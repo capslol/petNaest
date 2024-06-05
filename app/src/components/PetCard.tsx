@@ -9,6 +9,7 @@ import { BsThreeDots } from "react-icons/bs";
 import {styled} from "styled-components";
 import { MdOutlineEdit } from "react-icons/md";
 import {useParams} from "react-router-dom";
+import {Pet, User} from "../types/data";
 
 
 const PetInfo = styled.section`
@@ -34,6 +35,11 @@ const PetBreed = styled.p`
 `;
 
 
+interface PetUpdateData {
+    id: number;
+    name: string;
+    breed: string;
+}
 
 const PetCard: React.FC = () => {
     const { logout } = useAuth();
@@ -46,14 +52,14 @@ const PetCard: React.FC = () => {
         queryFn: () => getPetData(petIdNumber),
     });
 
-    const mutation = useMutation(updatePetData, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(['petData', petId]);
-        },
-    });
+    // const mutation = useMutation(updatePetData, {
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries(['petData', petId]);
+    //     },
+    // });
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editedPet, setEditedPet] = useState({ name: '', breed: '', documents: [], vaccines: [] });
+    const [editedPet, setEditedPet] = useState({ name: '', breed: '' });
 
     useEffect(() => {
         if (isError) {
@@ -63,7 +69,7 @@ const PetCard: React.FC = () => {
 
     useEffect(() => {
         if (pet) {
-            setEditedPet({ name: '', breed: '', documents: [], vaccines: [] });
+            setEditedPet({ name: '', breed: '' });
         }
     }, [pet]);
 
@@ -80,7 +86,11 @@ const PetCard: React.FC = () => {
     }
 
     const handleEdit = () => {
-        setIsEditing(true);
+        if( pet){
+            updatePetData({id: pet.id, name: '12345', breed: '123456'})
+            setIsEditing(true);
+
+        }
     };
 
     const handleSave = () => {

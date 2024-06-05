@@ -1,12 +1,12 @@
-import React, {FC, useEffect, useState} from 'react';
-import {Navigate, Route, Routes, useNavigate} from "react-router-dom";
+import {  FC, useEffect, useState } from 'react';
+import { Navigate, Route, Routes } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
 import Register from "./Register";
 import Login from "./Login";
 import Home from "./Home";
 import GlobalStyles from '../styles/globalStyles';
-import {AuthProvider, useAuth} from "../contexts/AuthContext";
+import { AuthProvider } from "../contexts/AuthContext";
 import SecureRoute from "../routes/SecureRoute";
-import {ChakraProvider} from "@chakra-ui/react";
 import PetCard from "./PetCard";
 import NotFound from "./NotFound";
 
