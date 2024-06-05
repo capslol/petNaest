@@ -60,30 +60,14 @@ export const getPetData = async (id: number | undefined) => {
 export const updatePetData = async ({ id, name, breed }: PetUpdateData): Promise<User> => {
     const token = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
-    const response = await axios.get(`${API_URL}/users/${userId}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
 
-    const user: User = response.data;
-    const petIndex = user.pets.findIndex((pet) => pet.id === id);
-    if (petIndex === -1) {
-        throw new Error('Pet not found');
-    }
-
-    // Обновляем данные о питомце
-    user.pets[petIndex].name = name;
-    user.pets[petIndex].breed = breed;
 
     // Отправляем обновленные данные пользователя на сервер
-    const updateResponse = await axios.put(`${API_URL}/users/${userId}`, user, {
-
+    const updateResponse = await axios.put(`${API_URL}/users/id=${id}ownerId=${userId}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
-    console.log(updateResponse.data)
     return updateResponse.data;
 };
 

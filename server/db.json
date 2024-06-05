@@ -1,59 +1,29 @@
 {
   "users": [
     {
-      "name": "Арина",
       "email": "arinavasch@gmail.com",
-      "password": "$2a$10$a.ZNFZo.XBQ.w4G63yJ9m.iD5iJbmrLW0McnwWj4yK1U4qle6J/Lq",
-      "id": 5,
-      "pets": [
-        {
-          "id": 1,
-          "name": "12345",
-          "age": 0.7,
-          "breed": "123456",
-          "documents": [
-            "vet_record.pdf"
-          ],
-          "vaccines": [
-            "rabies",
-            "distemper"
-          ],
-          "plans": [
-            "1",
-            "2"
-          ]
-        }
-      ]
-    },
+      "password": "$2a$10$yyi/onxu7OHimvG.NDfgze0BOGR.MHg.w/XKulUyPaAxvixJ62vw2",
+      "id": 1
+    }
+  ],
+  "pets": [
     {
-      "name": "Арина",
-      "email": "test@test.com",
-      "password": "$2a$10$llSentLRRLunWHZti6d17e9qm6Ga7xwd.goWQGrtZYOJklPI3vVYe",
-      "id": 6,
-      "pets": [
-        {
-          "id": 1,
-          "name": "12345",
-          "age": 0.7,
-          "breed": "123456",
-          "documents": [
-            "vet_record.pdf"
-          ],
-          "vaccines": [
-            "rabies",
-            "distemper"
-          ],
-          "plans": [
-            "1",
-            "2"
-          ]
-        }
+      "id": 1,
+      "ownerId": 7,
+      "name": "111",
+      "breed": "222",
+      "age": 0.7,
+      "documents": [
+        "vet_record.pdf"
+      ],
+      "vaccines": [
+        "rabies",
+        "distemper"
+      ],
+      "plans": [
+        "1",
+        "2"
       ]
-    },
-    {
-      "email": "222@222.com",
-      "password": "$2a$10$lj6rHqk/8z5dVZ6/s06ug.jRJSsTOk54TDP0XewrEzNTQnxX9LfH6",
-      "id": 7
     }
   ]
 }

@@ -41,25 +41,31 @@ interface PetUpdateData {
     breed: string;
 }
 
-const PetCard: React.FC = () => {
+const PetCard = () => {
     const { logout } = useAuth();
     const { petId } = useParams<{ petId: string }>();
     const petIdNumber = petId ? parseInt(petId) : undefined;
     const queryClient = useQueryClient();
 
-    const { data: pet, isLoading, isError } = useQuery({
-        queryKey: ['petData', petId],
+    const { data: pet, isLoading, isError } = useQuery<Pet>({
+        queryKey: ['petData'],
         queryFn: () => getPetData(petIdNumber),
     });
 
-    // const mutation = useMutation(updatePetData, {
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries(['petData', petId]);
-    //     },
-    // });
+
+    const mutation = useMutation({
+        mutationFn: updatePetData,
+        onSuccess: (data) => {
+        //     queryClient.invalidateQueries({
+        //         queryKey: ['petData']
+        // });
+            queryClient.setQueryData(['petData'], data.pets.find((pet)=> pet.id === petIdNumber) );
+        },
+    });
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editedPet, setEditedPet] = useState({ name: '', breed: '' });
+    const [editedPet, setEditedPet] = useState<PetUpdateData>({ id: petIdNumber ?? 0, name: '', breed: '' });
+
 
     useEffect(() => {
         if (isError) {
@@ -69,7 +75,7 @@ const PetCard: React.FC = () => {
 
     useEffect(() => {
         if (pet) {
-            setEditedPet({ name: '', breed: '' });
+            setEditedPet({ id: pet.id, name: pet.name, breed: pet.breed });
         }
     }, [pet]);
 
@@ -87,20 +93,17 @@ const PetCard: React.FC = () => {
 
     const handleEdit = () => {
         if( pet){
-            updatePetData({id: pet.id, name: '12345', breed: '123456'})
             setIsEditing(true);
-
         }
     };
 
     const handleSave = () => {
-        // mutation.mutate({ id: petIdNumber, ...editedPet });
+        mutation.mutate(editedPet)
         setIsEditing(false);
     };
 
-    const handleChange = (e:  React.FormEvent<HTMLInputElement>) => {
-        console.log(e)
-        // setEditedPet({ ...editedPet, [e.target.name]: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEditedPet({ ...editedPet, [e.target.name]: e.target.value });
     };
 
     return (
@@ -121,8 +124,8 @@ const PetCard: React.FC = () => {
                             </>
                         ) : (
                             <>
-                                <PetName>{pet.name}</PetName>
-                                <PetBreed>{pet.breed}</PetBreed>
+                                <PetName>{pet?.name}</PetName>
+                                <PetBreed>{pet?.breed}</PetBreed>
                             </>
                         )}
                     </PetDetails>
