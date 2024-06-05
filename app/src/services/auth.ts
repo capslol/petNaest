@@ -1,11 +1,17 @@
 import axios from 'axios';
-import {Pet, User} from "../types/data";
+import {Document, Pet, Plan, User, Vaccine} from "../types/data";
 
 const API_URL = 'http://localhost:5000';
 
 interface LoginData {
     email: string;
     password: string;
+}
+
+interface PetUpdateData {
+    id: number;
+    name: string;
+    breed: string;
 }
 
 export interface LoginResponse {
@@ -33,7 +39,7 @@ export const getUserData = async () => {
     return response.data;
 };
 
-export const getPetData = async (petId: number | undefined) => {
+export const getPetData = async (id: number | undefined) => {
 
     const token = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
@@ -44,13 +50,41 @@ export const getPetData = async (petId: number | undefined) => {
     });
 
     const user = response.data;
-    const pet = user.pets.filter((pet: Pet) => pet.id === petId);
+    const pet = user.pets.find((pet: Pet) => pet.id === id);
     if (!pet) {
         throw new Error('Pet not found');
     }
     return pet;
 };
 
+export const updatePetData = async ({ id, name, breed,  }: PetUpdateData) => {
+    const token = localStorage.getItem('accessToken');
+    const userId = localStorage.getItem('userId');
+    const response = await axios.get(`${API_URL}/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    const user = response.data;
+    const petIndex = user.pets.findIndex((pet: Pet) => pet.id === id);
+    if (petIndex === -1) {
+        throw new Error('Pet not found');
+    }
+
+    // Обновляем данные о питомце
+    user.pets[petIndex].name = name;
+    user.pets[petIndex].breed = breed;
+
+    // Отправляем обновленные данные пользователя на сервер
+    const updateResponse = await axios.put(`${API_URL}/users/${userId}`, user, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    return updateResponse.data.pets[petIndex];
+};
 
 export const registerUser = async (user: { email: string; password: string }) => {
     const response = await axios.post(`${API_URL}/register`, user);

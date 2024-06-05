@@ -154,7 +154,7 @@ const HomePage = () => {
     }
 
     const handlePetClick = (petId: number) => {
-        navigate(`/pet/${petId}`);
+        navigate(`/petCard/${petId}`);
     };
     return (
         <Container>

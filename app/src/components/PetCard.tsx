@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {useQuery} from "@tanstack/react-query";
-import {getPetData, getUserData} from "../services/auth";
-import {Box, Spinner} from "@chakra-ui/react";
+import React, {useEffect, useState} from 'react';
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {getPetData, updatePetData} from "../services/auth";
+import {Box, Input, Spinner} from "@chakra-ui/react";
 import {useAuth} from "../contexts/AuthContext";
 import GoBackButton from "./GoBackButton";
 import {Avatar, Button, colors, Container, Header, mixins, Section} from "../styles/styles";
@@ -32,26 +32,40 @@ const PetBreed = styled.p`
   margin: 0;
   color: #888;
 `;
-const PetCard = () => {
+
+
+
+const PetCard: React.FC = () => {
     const { logout } = useAuth();
-
-
-
-    const { petId } = useParams();
-    const petIdNumber = petId ? parseInt(petId) : undefined
-    console.log(petId)
-    console.log(petIdNumber)
+    const { petId } = useParams<{ petId: string }>();
+    const petIdNumber = petId ? parseInt(petId) : undefined;
+    const queryClient = useQueryClient();
 
     const { data: pet, isLoading, isError } = useQuery({
         queryKey: ['petData', petId],
-        queryFn: () => getPetData(1),
+        queryFn: () => getPetData(petIdNumber),
     });
+
+    const mutation = useMutation(updatePetData, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(['petData', petId]);
+        },
+    });
+
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedPet, setEditedPet] = useState({ name: '', breed: '', documents: [], vaccines: [] });
 
     useEffect(() => {
         if (isError) {
             logout();
         }
     }, [isError, logout]);
+
+    useEffect(() => {
+        if (pet) {
+            setEditedPet({ name: '', breed: '', documents: [], vaccines: [] });
+        }
+    }, [pet]);
 
     if (isLoading) {
         return (
@@ -64,25 +78,54 @@ const PetCard = () => {
     if (isError) {
         return null;
     }
+
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleSave = () => {
+        // mutation.mutate({ id: petIdNumber, ...editedPet });
+        setIsEditing(false);
+    };
+
+    const handleChange = (e:  React.FormEvent<HTMLInputElement>) => {
+        console.log(e)
+        // setEditedPet({ ...editedPet, [e.target.name]: e.target.value });
+    };
+
     return (
         <Container>
             <Header>
-                <GoBackButton/>
+                <GoBackButton />
                 <h2>Pet Details</h2>
-                <Button><BsThreeDots/></Button>
+                <Button><BsThreeDots /></Button>
             </Header>
             <Section>
                 <PetInfo>
-                    <Avatar imageUrl="img/dog-avatar.png"/>
+                    <Avatar imageUrl="img/dog-avatar.png" />
                     <PetDetails>
-                        <PetName>Dobby</PetName>
-                        <PetBreed>French Bulldog</PetBreed>
+                        {isEditing ? (
+                            <>
+                                <Input name="name" value={editedPet.name} onChange={handleChange} />
+                                <Input name="breed" value={editedPet.breed} onChange={handleChange} />
+                            </>
+                        ) : (
+                            <>
+                                <PetName>{pet.name}</PetName>
+                                <PetBreed>{pet.breed}</PetBreed>
+                            </>
+                        )}
                     </PetDetails>
-                    <Button> <MdOutlineEdit/> </Button>
+                    {isEditing ? (
+                        <Button onClick={handleSave}>Save</Button>
+                    ) : (
+                        <Button onClick={handleEdit}><MdOutlineEdit /></Button>
+                    )}
                 </PetInfo>
             </Section>
         </Container>
     );
 };
+
 
 export default PetCard;

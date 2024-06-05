@@ -8,6 +8,7 @@ import {AuthProvider, useAuth} from "../contexts/AuthContext";
 import SecureRoute from "../routes/SecureRoute";
 import {ChakraProvider} from "@chakra-ui/react";
 import PetCard from "./PetCard";
+import NotFound from "./NotFound";
 
 const App: FC = () => {
     return (
@@ -20,8 +21,9 @@ const App: FC = () => {
                     <Route element={<SecureRoute/>}>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/petCard/:petId" element={<PetCard/>}/>
+                        <Route path="/notFound" element={<NotFound/>}/>
                     </Route>
-                    <Route path="*" element={<Navigate to="/login"/>}/>
+                    <Route path="*" element={<Navigate to="/notFound"/>}/>
                 </Routes>
             </AuthProvider>
         </ChakraProvider>

@@ -5,6 +5,9 @@ export interface Vaccine {
 export interface Document {
     fileName: string;
 }
+export interface Plan {
+    name: string;
+}
 
 export interface Pet {
     id: number;
@@ -13,6 +16,7 @@ export interface Pet {
     breed: string;
     documents: Document[];
     vaccines: Vaccine[];
+    plans: Plan[]
 }
 
 export interface User {
