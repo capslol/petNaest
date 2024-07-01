@@ -1,19 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {getPetData, updatePetData} from "../services/auth";
-import {Box, Input, Spinner} from "@chakra-ui/react";
+import {deletePet, getPet, updatePetData} from "../services/auth";
+import {Box, Input, Spinner, useToast} from "@chakra-ui/react";
 import {useAuth} from "../contexts/AuthContext";
 import GoBackButton from "./GoBackButton";
-import {Avatar, Button, colors, Container, Header, mixins, Section} from "../styles/styles";
-import { BsThreeDots } from "react-icons/bs";
+import {Avatar, Button, colors, Column, Container, Header, mixins, Section} from "../styles/styles";
+import {BsThreeDots} from "react-icons/bs";
 import {styled} from "styled-components";
-import { MdOutlineEdit } from "react-icons/md";
-import {useParams} from "react-router-dom";
-import {Pet, User} from "../types/data";
+import {MdOutlineEdit} from "react-icons/md";
+import {useNavigate, useParams} from "react-router-dom";
+import {Pet} from "../types/data";
+import {RiDeleteBinLine} from "react-icons/ri";
+import {FaCheck} from "react-icons/fa";
+import { FiPlus } from "react-icons/fi";
+import PetPlans from "./PetPlans";
 
 
 const PetInfo = styled.section`
-display: flex;
+  display: flex;
   justify-content: space-between;
 `;
 
@@ -41,31 +45,61 @@ interface PetUpdateData {
     breed: string;
 }
 
+const PlansHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+
 const PetCard = () => {
-    const { logout } = useAuth();
-    const { petId } = useParams<{ petId: string }>();
-    const petIdNumber = petId ? parseInt(petId) : undefined;
+    const {logout} = useAuth();
+    const { petId: petIdString } = useParams<{ petId: string }>();
+    const petId = petIdString ? parseInt(petIdString) : null;
     const queryClient = useQueryClient();
+    const toast = useToast()
+    const navigate = useNavigate()
 
-    const { data: pet, isLoading, isError } = useQuery<Pet>({
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedPet, setEditedPet] = useState<PetUpdateData>({id: petId ?? 0, name: '', breed: ''});
+
+    const {data: pet, isLoading, isError} = useQuery<Pet>({
         queryKey: ['petData'],
-        queryFn: () => getPetData(petIdNumber),
+        queryFn: () => getPet(petId),
     });
-
 
     const mutation = useMutation({
         mutationFn: updatePetData,
         onSuccess: (data) => {
-        //     queryClient.invalidateQueries({
-        //         queryKey: ['petData']
-        // });
-            queryClient.setQueryData(['petData'], data.pets.find((pet)=> pet.id === petIdNumber) );
+            queryClient.setQueryData(['petData'], editedPet);
         },
     });
 
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedPet, setEditedPet] = useState<PetUpdateData>({ id: petIdNumber ?? 0, name: '', breed: '' });
 
+
+    const deleteMutation = useMutation({
+        mutationFn: deletePet,
+        onSuccess: () => {
+            navigate(-1)
+            queryClient.setQueryData(['petData'], petId);
+            toast({
+                title: 'Pet Deleted',
+                description: 'The pet has been successfully deleted.',
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+            });
+        },
+        onError: (error: Error) => {
+            toast({
+                title: 'Deletion Failed',
+                description: 'Failed to delete the pet. Please try again later.',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
+        },
+    });
 
     useEffect(() => {
         if (isError) {
@@ -75,14 +109,14 @@ const PetCard = () => {
 
     useEffect(() => {
         if (pet) {
-            setEditedPet({ id: pet.id, name: pet.name, breed: pet.breed });
+            setEditedPet({id: pet.id, name: pet.name, breed: pet.breed});
         }
     }, [pet]);
 
     if (isLoading) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-                <Spinner size="xl" />
+                <Spinner size="xl"/>
             </Box>
         );
     }
@@ -92,7 +126,7 @@ const PetCard = () => {
     }
 
     const handleEdit = () => {
-        if( pet){
+        if (pet) {
             setIsEditing(true);
         }
     };
@@ -103,24 +137,29 @@ const PetCard = () => {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditedPet({ ...editedPet, [e.target.name]: e.target.value });
+        setEditedPet({...editedPet, [e.target.name]: e.target.value});
     };
+
+    const handleDelete = () => {
+        deleteMutation.mutate(petId)
+    };
+
 
     return (
         <Container>
             <Header>
-                <GoBackButton />
+                <GoBackButton/>
                 <h2>Pet Details</h2>
-                <Button><BsThreeDots /></Button>
+                <Button><BsThreeDots/></Button>
             </Header>
             <Section>
                 <PetInfo>
-                    <Avatar imageUrl="img/dog-avatar.png" />
+                    <Avatar imageurl="img/dog-avatar.png"></Avatar>
                     <PetDetails>
                         {isEditing ? (
                             <>
-                                <Input name="name" value={editedPet.name} onChange={handleChange} />
-                                <Input name="breed" value={editedPet.breed} onChange={handleChange} />
+                                <Input name="name" value={editedPet.name} onChange={handleChange}/>
+                                <Input name="breed" value={editedPet.breed} onChange={handleChange}/>
                             </>
                         ) : (
                             <>
@@ -130,11 +169,27 @@ const PetCard = () => {
                         )}
                     </PetDetails>
                     {isEditing ? (
-                        <Button onClick={handleSave}>Save</Button>
+                        <Column>
+                            <Button onClick={handleSave}><FaCheck/></Button>
+                            <Button onClick={handleDelete}> <RiDeleteBinLine/> </Button>
+                        </Column>
+
                     ) : (
-                        <Button onClick={handleEdit}><MdOutlineEdit /></Button>
+                        <Button onClick={handleEdit}><MdOutlineEdit/></Button>
                     )}
                 </PetInfo>
+            </Section>
+
+            <Section>
+
+                <PlansHeader>
+                    <p>Планы с {pet?.name}</p>
+                    <Button><FiPlus /></Button>
+
+                </PlansHeader>
+                <PetPlans pet={pet} />
+
+
             </Section>
         </Container>
     );

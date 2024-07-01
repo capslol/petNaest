@@ -12,13 +12,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+    console.log('context')
     const [isAuthenticated, setIsAuthenticated] = useState(() => {
         // Проверяем наличие токена в localStorage
         const token = localStorage.getItem('accessToken');
         // Возвращаем true, если токен есть, иначе - false
         return !!token;
     });
-
 
     const navigate = useNavigate();
 

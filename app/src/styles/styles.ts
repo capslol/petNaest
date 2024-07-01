@@ -10,7 +10,8 @@ export const colors = {
     lightBackground: '#F0F0F0',
     lightYellow: '#FBF0C2',
     yellow: '#FFC800',
-    lightBlue: '#D1E7FC'
+    lightBlue: '#D1E7FC',
+    lightGreen: '#7AB06C'
 };
 
 export const fonts = {
@@ -31,6 +32,11 @@ export const Container = styled.div`
   padding: 16px;
   background-color: ${colors.background};
 `;
+
+export const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 export const Button = styled.div`
   width: 40px;
   height: 40px;
@@ -39,6 +45,7 @@ export const Button = styled.div`
   align-items: center;
   border: 1px solid ${colors.lightGray};
   border-radius: 8px;
+  cursor: pointer;
 `
 
 
@@ -58,13 +65,16 @@ const UserInfo = styled.div`
   align-items: center;
 `;
 
-export const Avatar = styled.div<{ imageUrl: string }>`
+export const Avatar = styled.div<{ imageurl: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 50px;
   border-radius: 8px;
   margin-right: 12px;
   background-color: lightYellow;
-  background-image: url(${props => props.imageUrl});
+  background-image: url(${props => props.imageurl});
   background-size: cover;
 `;
 

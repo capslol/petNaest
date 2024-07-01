@@ -13,6 +13,7 @@ const StyledGoBackButton = styled.div`
   align-items: center;
   border-radius: 8px;
   border: 1px solid ${colors.lightGray};
+  cursor: pointer;
 `;
 
 

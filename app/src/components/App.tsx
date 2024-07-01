@@ -11,6 +11,8 @@ import PetCard from "./PetCard";
 import NotFound from "./NotFound";
 
 const App: FC = () => {
+
+
     return (
         <ChakraProvider>
             <AuthProvider>

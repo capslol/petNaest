@@ -1,12 +1,9 @@
-export interface Vaccine {
+export interface User {
+    id: string;
     name: string;
-}
-
-export interface Document {
-    fileName: string;
-}
-export interface Plan {
-    name: string;
+    email: string;
+    password: string;
+    pets: Pet[];
 }
 
 export interface Pet {
@@ -18,14 +15,23 @@ export interface Pet {
     vaccines: Vaccine[];
     plans: Plan[]
 }
-
-export interface User {
-    id: string;
+export interface Vaccine {
     name: string;
-    email: string;
-    password: string;
-    pets: Pet[];
 }
+
+export interface Document {
+    fileName: string;
+}
+export interface Plan {
+    name: string;
+    date: string;
+    location: string;
+
+}
+
+
+
+
 
 export interface UsersResponse {
     users: User[];

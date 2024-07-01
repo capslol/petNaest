@@ -2,21 +2,20 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {colors, Container, fonts, Header, Button, mixins, Section, Avatar} from '../styles/styles';
 import {useQuery} from "@tanstack/react-query";
-import {getUserData} from "../services/auth";
+import {  getUserData} from "../services/auth";
 import { Box, Spinner} from "@chakra-ui/react";
-import {Pet, User} from "../types/data";
+import { User} from "../types/data";
 import {useAuth} from "../contexts/AuthContext";
 import { CiSearch  } from "react-icons/ci";
 import { PiBellLight } from "react-icons/pi";
-import {useNavigate} from "react-router-dom";
-import {AxiosResponse} from "axios";
+
+import PetList from "./PetList";
 
 
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
 `;
-
 
 
 const Greeting = styled.div`
@@ -68,37 +67,12 @@ const SectionTitle = styled.h3`
   font-family: ${fonts.primary};
 `;
 
-const PetList = styled.div`
-  display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
-  min-height: 85px;
-`;
 
-const PetItem = styled.div`
-  flex: 0 0 auto;
-  width: 60px;
-  height: 60px;
-  background-color: ${colors.lightBlue};
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  font-size: 24px;
-  position: relative;
-`;
-const PetName = styled.span`
-  font-size: 16px;
-  position: absolute;
-  bottom: -40%;
-`;
 
-const AddPet = styled(PetItem)`
-  background-color: ${colors.lightYellow};
-  color: ${colors.yellow};
-  border: 1px dashed ${colors.yellow};
-`;
+
+
+
+
 
 const ServicesGrid = styled.div`
   display: grid;
@@ -107,7 +81,7 @@ const ServicesGrid = styled.div`
 `;
 
 const ServiceCard = styled.div`
-  background-color: ${colors.lightBackground};
+  background-color: ${colors.lightGreen};
   padding: 16px;
   border-radius: 8px;
   display: flex;
@@ -129,12 +103,15 @@ const ServiceName = styled.p`
 `;
 
 const HomePage = () => {
-    const navigate = useNavigate()
     const { logout } = useAuth();
     const { data: user, isLoading, isError } = useQuery<User>({
         queryKey: ['userData'],
         queryFn: getUserData,
     });
+
+
+
+
 
     useEffect(() => {
         if (isError) {
@@ -154,14 +131,12 @@ const HomePage = () => {
         return null;
     }
 
-    const handlePetClick = (petId: number) => {
-        navigate(`/petCard/${petId}`);
-    };
+
     return (
         <Container>
             <Header>
                 <UserInfo>
-                    <Avatar imageUrl="img/avatar1.png"/>
+                    <Avatar imageurl="img/avatar1.png"/>
                     <Greeting>
                         <UserName>Привет, {user?.name}!</UserName>
                         {/*<Location>Bangalore, India</Location>*/}
@@ -178,28 +153,26 @@ const HomePage = () => {
             </Header>
             <Section>
                 <SectionTitle>Your Pets</SectionTitle>
-                <PetList>
-                    <AddPet>+</AddPet>
-                    {user?.pets.map((pet: Pet) => <PetItem onClick={() => handlePetClick(pet.id)} key={pet.id}>🐶<PetName>{pet.name}</PetName></PetItem>)}
-                </PetList>
+                <PetList/>
             </Section>
+
             <Section>
                 <SectionTitle>Services</SectionTitle>
                 <ServicesGrid>
                     <ServiceCard>
-                        <ServiceIcon src="daycare_icon_url" alt="Daycare"/>
+                        <ServiceIcon src="img/service-icon.svg" alt="Daycare"/>
                         <ServiceName>Daycare</ServiceName>
                     </ServiceCard>
                     <ServiceCard>
-                        <ServiceIcon src="health_icon_url" alt="Health"/>
+                        <ServiceIcon src="img/service-icon.svg" alt="Health"/>
                         <ServiceName>Health</ServiceName>
                     </ServiceCard>
                     <ServiceCard>
-                        <ServiceIcon src="grooming_icon_url" alt="Grooming"/>
+                        <ServiceIcon src="img/service-icon.svg" alt="Grooming"/>
                         <ServiceName>Grooming</ServiceName>
                     </ServiceCard>
                     <ServiceCard>
-                        <ServiceIcon src="tracking_icon_url" alt="Tracking"/>
+                        <ServiceIcon src="img/service-icon.svg" alt="Tracking"/>
                         <ServiceName>Tracking</ServiceName>
                     </ServiceCard>
                 </ServicesGrid>

@@ -1,29 +1,26 @@
 {
   "users": [
     {
+      "name": "Арина",
       "email": "arinavasch@gmail.com",
-      "password": "$2a$10$yyi/onxu7OHimvG.NDfgze0BOGR.MHg.w/XKulUyPaAxvixJ62vw2",
-      "id": 1
+      "password": "$2a$10$sdlDi8GnPiSm0GXL.Tv9D.fUix6IPzNyYUDomr4wq9JiD93.RRpvm",
+      "id": 1,
+      "petIds": [
+        1,
+        2
+      ]
     }
   ],
   "pets": [
     {
-      "id": 1,
-      "ownerId": 7,
-      "name": "111",
-      "breed": "222",
+      "ownerId": 1,
       "age": 0.7,
-      "documents": [
-        "vet_record.pdf"
-      ],
-      "vaccines": [
-        "rabies",
-        "distemper"
-      ],
-      "plans": [
-        "1",
-        "2"
-      ]
+      "documents": [],
+      "vaccines": [],
+      "plans": [],
+      "name": "crf",
+      "breed": "grahdrfh",
+      "id": 2
     }
   ]
 }

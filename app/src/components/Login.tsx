@@ -11,11 +11,21 @@ import {
     LoginButton,
     Title
 } from '../styles/LoginPageStyles';
+import MyComponent from "./test";
+import {Button} from "@chakra-ui/react";
 
+
+interface Promises {
+    name: string,
+    price: number,
+    count: number
+
+}
 const LoginPage = () => {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
+
     const { login } = useAuth();
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -25,6 +35,8 @@ const LoginPage = () => {
 
     return (
         <LoginContainer>
+        <MyComponent name='hello'/>
+
             <LoginForm onSubmit={handleSubmit}>
                 <Title>Login</Title>
                 <FormGroup>
