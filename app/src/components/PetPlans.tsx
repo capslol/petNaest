@@ -38,7 +38,7 @@ const PetPlans: FC<PetPlansProps> = ({pet}) => {
         <>
             <PlansList>
 
-                <Plan>{pet?.plans.map(plan => plan.name)}</Plan>
+                <Plan>{ pet?.plans && pet?.plans.map(plan => plan.name)}</Plan>
                 <div style={{display: "flex", justifyContent: "flex-end", flexDirection: "column"}}>
                     <button onClick={handleClick}
                             style={{display: "flex", justifyContent: "flex-end", alignItems: "flex-end",}}>
