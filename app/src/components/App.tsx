@@ -26,7 +26,6 @@ const App: FC = () => {
                     <Route path="*" element={<Navigate to="/notFound"/>}/>
                 </Routes>
         </ChakraProvider>
-
     );
 };
 

@@ -10,7 +10,7 @@ interface LoginData {
     password: string;
 }
 export interface LoginResponse {
-    accessToken: string; // или другие данные об успешной аутентификации
+    accessToken: string;
     id: string;
     user: User,
     error: object
@@ -24,8 +24,6 @@ export const loginFx = createEffect(async (data: LoginData, ):Promise<LoginRespo
         localStorage.setItem('userId', response.data.user.id);
         return response.data;
     } catch (error) {
-        // В случае ошибки показываем всплывающее уведомление об ошибке
-        // Перебрасываем ошибку для обработки в месте вызова функции login
         throw error;
     }
 })
@@ -37,13 +35,9 @@ export const $isAuthenticated = createStore<boolean>(!!accessTokenFromStorage)
     .on(loginFx.doneData, () => true)
     .reset(logout)
 
-
-
 sample({
     clock: logout,
     fn: () => {
-        console.log('logout triggered')
-        console.log('$isAuthenticated =', $isAuthenticated)
         localStorage.removeItem('accessToken');
         localStorage.removeItem('userId');
     }

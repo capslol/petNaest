@@ -114,9 +114,6 @@ const HomePage = () => {
     });
 
 
-
-
-
     useEffect(() => {
         if (isError) {
             logout();
