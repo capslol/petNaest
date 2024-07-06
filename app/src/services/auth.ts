@@ -4,10 +4,6 @@ import {useToast} from "@chakra-ui/react";
 
 const API_URL = 'http://localhost:5000';
 
-interface LoginData {
-    email: string;
-    password: string;
-}
 
 interface PetUpdateData {
     id: number;
@@ -25,27 +21,6 @@ interface PetCreateData {
     plans?: string[];
 }
 
-
-export interface LoginResponse {
-    accessToken: string; // или другие данные об успешной аутентификации
-    id: string;
-    user: User,
-    error: object
-}
-
-export const login = async (data: LoginData): Promise<LoginResponse> => {
-
-    try {
-        const response = await axios.post<LoginResponse>(`${API_URL}/login`, data);
-        localStorage.setItem('accessToken', response.data.accessToken);
-        localStorage.setItem('userId', response.data.user.id);
-        return response.data;
-    } catch (error) {
-        // В случае ошибки показываем всплывающее уведомление об ошибке
-        // Перебрасываем ошибку для обработки в месте вызова функции login
-        throw error;
-    }
-};
 
 export const getUserData = async () => {
     const token = localStorage.getItem('accessToken');

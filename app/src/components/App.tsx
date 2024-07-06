@@ -5,7 +5,6 @@ import Register from "./Register";
 import Login from "./Login";
 import Home from "./Home";
 import GlobalStyles from '../styles/globalStyles';
-import { AuthProvider } from "../contexts/AuthContext";
 import SecureRoute from "../routes/SecureRoute";
 import PetCard from "./PetCard";
 import NotFound from "./NotFound";
@@ -15,7 +14,6 @@ const App: FC = () => {
 
     return (
         <ChakraProvider>
-            <AuthProvider>
                 <GlobalStyles/>
                 <Routes>
                     <Route path="/login" element={<Login/>}/>
@@ -27,7 +25,6 @@ const App: FC = () => {
                     </Route>
                     <Route path="*" element={<Navigate to="/notFound"/>}/>
                 </Routes>
-            </AuthProvider>
         </ChakraProvider>
 
     );

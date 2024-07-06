@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { login, registerUser} from '../services/auth';
+import {  registerUser} from '../services/auth';
 import {Navigate, useNavigate} from "react-router-dom";
+import {loginFx} from "../store/authStore";
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -10,7 +11,6 @@ const Register = () => {
 
     const queryClient = useQueryClient();
 
-    const navigate = useNavigate()
 
     // const {data, isLoading, isSuccess, isError } = useQuery({
     //     queryKey: ['users'],
@@ -22,7 +22,7 @@ const Register = () => {
         onSuccess: () => {
             // Invalidate and refetch
             queryClient.invalidateQueries({queryKey: ['users']})
-            login({email, password})
+            loginFx({email, password})
         },
     });
 

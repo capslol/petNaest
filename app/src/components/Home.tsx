@@ -5,9 +5,10 @@ import {useQuery} from "@tanstack/react-query";
 import {  getUserData} from "../services/auth";
 import { Box, Spinner} from "@chakra-ui/react";
 import { User} from "../types/data";
-import {useAuth} from "../contexts/AuthContext";
 import { CiSearch  } from "react-icons/ci";
 import { PiBellLight } from "react-icons/pi";
+import { IoIosLogOut } from "react-icons/io";
+import {logout} from "../store/authStore";
 
 import PetList from "./PetList";
 
@@ -42,6 +43,10 @@ const StyledCiSearch = styled(CiSearch)`
     width: 24px;
 `;
 const StyledPiBellLight = styled(PiBellLight)`
+    height: 24px;
+    width: 24px;
+`;
+const StyledIoIosLogOut = styled(IoIosLogOut)`
     height: 24px;
     width: 24px;
 `;
@@ -103,7 +108,6 @@ const ServiceName = styled.p`
 `;
 
 const HomePage = () => {
-    const { logout } = useAuth();
     const { data: user, isLoading, isError } = useQuery<User>({
         queryKey: ['userData'],
         queryFn: getUserData,
@@ -148,6 +152,9 @@ const HomePage = () => {
                     </Button>
                     <Button>
                         <StyledPiBellLight/>
+                    </Button>
+                    <Button>
+                        <StyledIoIosLogOut onClick={() => logout()}/>
                     </Button>
                 </IconGroup>
             </Header>

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deletePet, getPet, updatePetData} from "../services/auth";
 import {Box, Input, Spinner, useToast} from "@chakra-ui/react";
-import {useAuth} from "../contexts/AuthContext";
 import GoBackButton from "./GoBackButton";
 import {Avatar, Button, colors, Column, Container, Header, mixins, Section} from "../styles/styles";
 import {BsThreeDots} from "react-icons/bs";
@@ -14,6 +13,7 @@ import {RiDeleteBinLine} from "react-icons/ri";
 import {FaCheck} from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import PetPlans from "./PetPlans";
+import {logout} from "../store/authStore";
 
 
 const PetInfo = styled.section`
@@ -53,7 +53,7 @@ const PlansHeader = styled.div`
 
 
 const PetCard = () => {
-    const {logout} = useAuth();
+
     const { petId: petIdString } = useParams<{ petId: string }>();
     const petId = petIdString ? parseInt(petIdString) : null;
     const queryClient = useQueryClient();

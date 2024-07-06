@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useState} from 'react';
-import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CopyValue from '../helpers/CopyBlock';
 import {
@@ -11,8 +10,10 @@ import {
     LoginButton,
     Title
 } from '../styles/LoginPageStyles';
+import { useUnit } from 'effector-react';
 import MyComponent from "./test";
-import {Button} from "@chakra-ui/react";
+import { loginFx } from '../store/authStore';
+
 
 
 interface Promises {
@@ -22,22 +23,30 @@ interface Promises {
 
 }
 const LoginPage = () => {
+    const navigate = useNavigate()
+    const login = useUnit(loginFx)
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { login } = useAuth();
 
-    const handleSubmit = async (event: React.FormEvent) => {
+
+    const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
-        login(email, password);
+        try{
+            await loginFx({email, password})
+            navigate('/')
+
+        } catch (err){
+            throw err
+        }
     };
 
     return (
         <LoginContainer>
         <MyComponent name='hello'/>
 
-            <LoginForm onSubmit={handleSubmit}>
+            <LoginForm onSubmit={handleLogin}>
                 <Title>Login</Title>
                 <FormGroup>
                     <FormLabel>Email</FormLabel>

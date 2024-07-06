@@ -1,10 +1,19 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import {useAuth} from "../contexts/AuthContext";
+import React, { useEffect } from 'react';
+import {Outlet, useNavigate} from 'react-router-dom';
+import { useUnit } from 'effector-react';
+import { $isAuthenticated } from '../store/authStore';
 
-const PrivateRoute = () => {
-    const { isAuthenticated } = useAuth();
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+const SecureRoute = () => {
+    const isAuthenticated = useUnit($isAuthenticated);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
+    }, [isAuthenticated, navigate]);
+
+    return isAuthenticated ? <Outlet /> : null;
 };
 
-export default PrivateRoute;
+export default SecureRoute;
