@@ -1,7 +1,7 @@
 import {createEffect, createStore, sample} from 'effector';
 import axios from 'axios';
 import {User, Pet, PetUpdateData} from '../types/data';
-import { $accessToken } from './authStore';
+import {$accessToken, logout} from './authStore';
 
 const API_URL = 'http://localhost:5000';
 
@@ -104,6 +104,7 @@ export const $currentPetId = createStore<number | null>(null)
     .on(setCurrentPetIdFx.doneData, (_, petId) => petId);
 export const $user = createStore<User | null>(null)
 .on(getUserDataFx.doneData, (_, payload) => payload)
+    .reset(logout)
 
 export const $pets = createStore<Pet[]>([])
     .on(getPetsDataFx.doneData, (_, payload) => payload)

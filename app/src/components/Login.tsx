@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import CopyValue from '../helpers/CopyBlock';
 import {
     LoginContainer,
@@ -10,10 +10,9 @@ import {
     LoginButton,
     Title
 } from '../styles/LoginPageStyles';
-import { useUnit } from 'effector-react';
+import {useUnit} from 'effector-react';
 import MyComponent from "./test";
-import { loginFx } from '../store/authStore';
-
+import {login, loginFx} from '../store/authStore';
 
 
 interface Promises {
@@ -22,23 +21,21 @@ interface Promises {
     count: number
 
 }
+
 const LoginPage = () => {
     const navigate = useNavigate()
-    const login = useUnit(loginFx)
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
 
-
     const handleLogin = async (event: React.FormEvent) => {
         event.preventDefault();
-        try{
-            await loginFx({email, password})
-            navigate('/')
-
-        } catch (err){
-            throw err
+        try {
+            await loginFx({ email, password });
+            navigate('/');
+        } catch (err) {
+            throw err;
         }
     };
 
@@ -49,7 +46,7 @@ const LoginPage = () => {
                 <Title>Login</Title>
                 <FormGroup>
                     <FormLabel>Email</FormLabel>
-                    <CopyValue />
+                    <CopyValue/>
                     <FormInput
                         type="email"
                         value={email}
