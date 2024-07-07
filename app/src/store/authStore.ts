@@ -17,6 +17,11 @@ export interface LoginResponse {
 }
 
 const accessTokenFromStorage = localStorage.getItem('accessToken')
+
+export const registerUserFx = createEffect( async (user: { email: string; password: string }) => {
+    const response = await axios.post(`${API_URL}/register`, user);
+    return response.data;
+})
 export const loginFx = createEffect(async (data: LoginData, ):Promise<LoginResponse> => {
     try {
         const response = await axios.post<LoginResponse>(`${API_URL}/login`, data);

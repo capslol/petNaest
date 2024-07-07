@@ -6,6 +6,16 @@ export interface User {
     pets: Pet[];
 }
 
+export interface PetUpdateData {
+    id: number;
+    name: string;
+    age: number;
+    breed: string;
+    documents: Document[];
+    vaccines: Vaccine[];
+    plans: Plan[];
+}
+
 export interface Pet {
     id: number;
     name: string;

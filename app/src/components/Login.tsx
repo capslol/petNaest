@@ -44,7 +44,6 @@ const LoginPage = () => {
 
     return (
         <LoginContainer>
-        <MyComponent name='hello'/>
 
             <LoginForm onSubmit={handleLogin}>
                 <Title>Login</Title>

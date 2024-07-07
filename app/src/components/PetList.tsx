@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import { Pet } from "../types/data";
+import {Pet} from "../types/data";
 import styled from "styled-components";
-import { colors } from "../styles/styles";
-import { useNavigate } from "react-router-dom";
+import {colors} from "../styles/styles";
+import {useNavigate} from "react-router-dom";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {createPet, getPetsData} from "../services/auth";
 import {
     Spinner,
     Box,
@@ -15,7 +14,9 @@ import {
     ModalContent,
     ModalHeader,
     ModalCloseButton, ModalBody, Input, ModalFooter, Button
-} from "@chakra-ui/react"; // Добавлен Box и Text для отображения ошибки
+} from "@chakra-ui/react";
+import {useUnit} from "effector-react";
+import {$currentPet, $pets, createPetFx, getPetsDataFx, getUserDataFx} from "../store/userStore"; // Добавлен Box и Text для отображения ошибки
 
 const PetListWrapper = styled.div`
   display: flex;
@@ -51,52 +52,30 @@ const PetName = styled.span`
   bottom: -40%;
 `;
 
+interface PetListProps {
+    onPetClick: (petId: number) => void;
+}
+
 const PetList = () => {
-    const toast = useToast()
-    const queryClient = useQueryClient()
 
     const [showAddPetPopup, setShowAddPetPopup] = useState(false); // Состояние для отслеживания отображения попапа
     const [newPetName, setNewPetName] = useState(''); // Состояние для хранения имени нового питомца
     const [newPetBreed, setNewPetBreed] = useState(''); // Состояние для хранения породы нового питомца
 
 
-    const { data: pets, isLoading, isError, error } = useQuery<Pet[]>({
-        queryKey: ['petsData'],
-        queryFn: getPetsData,
-    });
+    const pets = useUnit($pets)
 
-
-    const mutate = useMutation({
-        mutationFn: createPet,
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['petsData']
-            });
-            toast({
-                status: "success",
-                title: "Pet Added",
-                description: "A new pet has been successfully added.",
-                duration: 5000,
-                isClosable: true,
-            });
-        }
-    })
+    useEffect(() => {
+        getPetsDataFx()
+    },[])
 
 
     const navigate = useNavigate();
 
-    const handlePetClick = (petId: number) => {
+    const handlePetClick = (petId: number | null) => {
         navigate(`/petCard/${petId}`);
     };
-    if (isError) {
-        toast({
-            status: "error",
-            title: "Error loading pets data",
-            description: "Please try again later.",
-            duration: 9000,
-            isClosable: true,
-        });
-    }
+
     const handleAddPetClick = () => {
         setShowAddPetPopup(true);
     };
@@ -107,8 +86,8 @@ const PetList = () => {
         setNewPetBreed('');
     };
 
-    const handleAddPetSubmit = () => {
-        mutate.mutate({ name: newPetName, breed: newPetBreed });
+    const handleAddPetSubmit = async () => {
+        await createPetFx({name: newPetName, breed: newPetBreed})
         handleAddPetClose();
     };
 
@@ -116,29 +95,23 @@ const PetList = () => {
     return (
         <PetListWrapper>
             <AddPet onClick={handleAddPetClick}>+</AddPet>
-            {isError ? (
-                <Box>
-                    {error.message}
-                </Box>
-            ) : isLoading ? (
-                <Spinner size="xl"/>
-            ) : (
-                pets?.map((pet: Pet) => (
+            {pets?.map((pet: Pet) => (
                     <PetItem onClick={() => handlePetClick(pet.id)} key={pet.id}>
                         🐶<PetName>{pet.name}</PetName>
                     </PetItem>
-                ))
+                )
             )}
             {/* Попап для добавления нового питомца */}
             <Modal isOpen={showAddPetPopup} onClose={handleAddPetClose}>
-                <ModalOverlay />
+                <ModalOverlay/>
                 <ModalContent>
                     <ModalHeader>Add New Pet</ModalHeader>
-                    <ModalCloseButton />
+                    <ModalCloseButton/>
                     <ModalBody>
                         <Text mb="4">Enter the name and breed of the new pet:</Text>
-                        <Input placeholder="Name" value={newPetName} onChange={(e) => setNewPetName(e.target.value)} />
-                        <Input mt="4" placeholder="Breed" value={newPetBreed} onChange={(e) => setNewPetBreed(e.target.value)} />
+                        <Input placeholder="Name" value={newPetName} onChange={(e) => setNewPetName(e.target.value)}/>
+                        <Input mt="4" placeholder="Breed" value={newPetBreed}
+                               onChange={(e) => setNewPetBreed(e.target.value)}/>
                     </ModalBody>
                     <ModalFooter>
                         <Button colorScheme="blue" mr={3} onClick={handleAddPetSubmit}>

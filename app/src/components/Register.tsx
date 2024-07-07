@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {  registerUser} from '../services/auth';
 import {Navigate, useNavigate} from "react-router-dom";
-import {loginFx} from "../store/authStore";
+import {loginFx, registerUserFx} from "../store/authStore";
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -17,18 +16,11 @@ const Register = () => {
     //     queryFn: getUsers
     // });
 
-    const mutation = useMutation({
-        mutationFn: registerUser,
-        onSuccess: () => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries({queryKey: ['users']})
-            loginFx({email, password})
-        },
-    });
+
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        mutation.mutate({ email, password });
+        registerUserFx({email, password})
     };
 
     return (

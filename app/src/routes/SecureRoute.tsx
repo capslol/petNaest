@@ -8,10 +8,11 @@ const SecureRoute = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log('secure')
         if (!isAuthenticated) {
             navigate('/login');
         }
-    }, [isAuthenticated, navigate]);
+    }, [isAuthenticated]);
 
     return isAuthenticated ? <Outlet /> : null;
 };

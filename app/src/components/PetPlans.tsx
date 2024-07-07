@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import {styled} from "styled-components";
 
 interface PetPlansProps {
-    pet: Pet | undefined
+    pet: Pet | null
 }
 
 const PlansList = styled.div`

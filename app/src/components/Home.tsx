@@ -1,16 +1,13 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {colors, Container, fonts, Header, Button, mixins, Section, Avatar} from '../styles/styles';
-import {useQuery} from "@tanstack/react-query";
-import {  getUserData} from "../services/auth";
-import { Box, Spinner} from "@chakra-ui/react";
-import { User} from "../types/data";
 import { CiSearch  } from "react-icons/ci";
 import { PiBellLight } from "react-icons/pi";
 import { IoIosLogOut } from "react-icons/io";
 import {logout} from "../store/authStore";
-
 import PetList from "./PetList";
+import {useUnit} from "effector-react/compat";
+import {$user, getPetsDataFx, getUserDataFx} from "../store/userStore";
 
 
 const UserInfo = styled.div`
@@ -108,29 +105,31 @@ const ServiceName = styled.p`
 `;
 
 const HomePage = () => {
-    const { data: user, isLoading, isError } = useQuery<User>({
-        queryKey: ['userData'],
-        queryFn: getUserData,
-    });
-
+    const user = useUnit($user)
 
     useEffect(() => {
-        if (isError) {
-            logout();
-        }
-    }, [isError, logout]);
+        getUserDataFx()
+        getPetsDataFx()
+    },[])
 
-    if (isLoading) {
-        return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-                <Spinner size="xl" />
-            </Box>
-        );
-    }
 
-    if (isError) {
-        return null;
-    }
+    // useEffect(() => {
+    //     if (isError) {
+    //         logout();
+    //     }
+    // }, [isError, logout]);
+    //
+    // if (isLoading) {
+    //     return (
+    //         <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+    //             <Spinner size="xl" />
+    //         </Box>
+    //     );
+    // }
+
+    // if (isError) {
+    //     return null;
+    // }
 
 
     return (
