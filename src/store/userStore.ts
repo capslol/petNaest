@@ -3,7 +3,7 @@ import axios from 'axios';
 import {User, Pet, PetUpdateData} from '../types/data';
 import {$accessToken, logout} from './authStore';
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://07ef-109-228-82-225.ngrok-free.app';
 
 
 
