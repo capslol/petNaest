@@ -64,5 +64,6 @@
     "@types/react-copy-to-clipboard": "^5.0.7"
   },
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "http://{capslol}.github.io/{petNaest}"
 }
