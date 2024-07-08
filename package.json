@@ -2,6 +2,7 @@
   "name": "pizza",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://capslol.github.io/PetNaest",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.4",
@@ -41,7 +42,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -65,6 +67,5 @@
     "@types/react-copy-to-clipboard": "^5.0.7"
   },
   "main": "index.js",
-  "license": "MIT",
-  "homepage": "https://capslol.github.io"
+  "license": "MIT"
 }
