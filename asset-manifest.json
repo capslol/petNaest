@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.b5b8381d.css",
-    "main.js": "/static/js/main.cd8d5e0d.js",
-    "index.html": "/index.html",
-    "main.b5b8381d.css.map": "/static/css/main.b5b8381d.css.map",
-    "main.cd8d5e0d.js.map": "/static/js/main.cd8d5e0d.js.map"
+    "main.css": "/PetNaest/static/css/main.b5b8381d.css",
+    "main.js": "/PetNaest/static/js/main.3fff40d9.js",
+    "index.html": "/PetNaest/index.html",
+    "main.b5b8381d.css.map": "/PetNaest/static/css/main.b5b8381d.css.map",
+    "main.3fff40d9.js.map": "/PetNaest/static/js/main.3fff40d9.js.map"
   },
   "entrypoints": [
     "static/css/main.b5b8381d.css",
-    "static/js/main.cd8d5e0d.js"
+    "static/js/main.3fff40d9.js"
   ]
 }
