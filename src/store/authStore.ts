@@ -4,7 +4,7 @@ import { User } from "../types/data";
 import axios from "axios";
 import { useNavigate  } from 'react-router-dom'; // Импортируем navigate для перехода
 
-const API_URL = 'https://07ef-109-228-82-225.ngrok-free.app';
+const API_URL = 'https://4758-109-228-82-225.ngrok-free.app';
 
 interface LoginData {
     email: string;
