@@ -13,11 +13,6 @@
   ],
   "pets": [
     {
-      "ownerId": 1,
-      "age": 0.7,
-      "documents": [],
-      "vaccines": [],
-      "plans": [],
       "name": "Dobby Dodik",
       "breed": "lox",
       "id": 2

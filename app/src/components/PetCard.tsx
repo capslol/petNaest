@@ -9,10 +9,10 @@ import {BsThreeDots} from "react-icons/bs";
 import {styled} from "styled-components";
 import {MdOutlineEdit} from "react-icons/md";
 import {useNavigate, useParams} from "react-router-dom";
-import {Pet} from "../types/data";
+import {Pet, Plan} from "../types/data";
 import {RiDeleteBinLine} from "react-icons/ri";
 import {FaCheck} from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
+import {FiPlus} from "react-icons/fi";
 import PetPlans from "./PetPlans";
 
 
@@ -41,20 +41,15 @@ const PetBreed = styled.p`
 
 interface PetUpdateData {
     id: number;
-    name: string;
-    breed: string;
+    name?: string;
+    breed?: string;
+    plans?: Plan[];
 }
-
-const PlansHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 
 const PetCard = () => {
     const {logout} = useAuth();
-    const { petId: petIdString } = useParams<{ petId: string }>();
+    const {petId: petIdString} = useParams<{ petId: string }>();
     const petId = petIdString ? parseInt(petIdString) : null;
     const queryClient = useQueryClient();
     const toast = useToast()
@@ -74,7 +69,6 @@ const PetCard = () => {
             queryClient.setQueryData(['petData'], editedPet);
         },
     });
-
 
 
     const deleteMutation = useMutation({
@@ -155,39 +149,38 @@ const PetCard = () => {
             <Section>
                 <PetInfo>
                     <Avatar imageurl="img/dog-avatar.png"></Avatar>
-                    <PetDetails>
-                        {isEditing ? (
-                            <>
+                    {isEditing ? (
+                        <>
+                            <PetDetails>
                                 <Input name="name" value={editedPet.name} onChange={handleChange}/>
                                 <Input name="breed" value={editedPet.breed} onChange={handleChange}/>
-                            </>
-                        ) : (
-                            <>
+                            </PetDetails>
+                            <Column>
+                                <Button onClick={handleSave}><FaCheck/></Button>
+                                <Button onClick={handleDelete}> <RiDeleteBinLine/> </Button>
+                            </Column>
+                        </>
+                    ) : ( // e
+                        <>
+                            <PetDetails>
                                 <PetName>{pet?.name}</PetName>
                                 <PetBreed>{pet?.breed}</PetBreed>
-                            </>
-                        )}
-                    </PetDetails>
-                    {isEditing ? (
-                        <Column>
-                            <Button onClick={handleSave}><FaCheck/></Button>
-                            <Button onClick={handleDelete}> <RiDeleteBinLine/> </Button>
-                        </Column>
+                            </PetDetails>
 
-                    ) : (
-                        <Button onClick={handleEdit}><MdOutlineEdit/></Button>
+                            <>
+                                <Button onClick={handleEdit}><MdOutlineEdit/></Button>
+                            </>
+                        </>
                     )}
+
+
                 </PetInfo>
             </Section>
 
             <Section>
 
-                <PlansHeader>
-                    <p>Планы с {pet?.name}</p>
-                    <Button><FiPlus /></Button>
 
-                </PlansHeader>
-                <PetPlans pet={pet} />
+                <PetPlans pet={pet}/>
 
 
             </Section>

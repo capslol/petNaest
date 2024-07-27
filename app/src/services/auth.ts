@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Pet, User} from "../types/data";
+import {Pet, Plan, User} from "../types/data";
 import {useToast} from "@chakra-ui/react";
 
 const API_URL = 'http://localhost:5000';
@@ -11,8 +11,9 @@ interface LoginData {
 
 interface PetUpdateData {
     id: number;
-    name: string;
-    breed: string;
+    name?: string;
+    breed?: string;
+    plans?: Plan[];
 }
 
 interface PetCreateData {
@@ -88,24 +89,15 @@ export const getPet = async (petId: number | null) => {
 };
 
 
-export const updatePetData = async ({id, name, breed}: PetUpdateData): Promise<Pet> => {
+export const updatePetData = async ({ id, name, breed, plans }: PetUpdateData): Promise<Pet> => {
     const token = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
     try {
-        // Получаем текущие данные питомца
-        const petResponse = await axios.get(`${API_URL}/pets/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        // Получаем текущий объект питомца
-        const currentPetData: Pet = petResponse.data;
-
-        const updatedPetData: Pet = {
-            ...currentPetData,
-            name: name ?? currentPetData.name,
-            breed: breed ?? currentPetData.breed,
+        // Формируем объект с обновленными данными, включающий только измененные поля
+        const updatedPetData: Partial<PetUpdateData> = {
+            ...(name !== undefined && { name }),
+            ...(breed !== undefined && { breed }),
+            ...(plans !== undefined && { plans }),
         };
 
         // Отправляем обновленные данные питомца на сервер
@@ -117,7 +109,6 @@ export const updatePetData = async ({id, name, breed}: PetUpdateData): Promise<P
 
         return updateResponse.data;
     } catch (error) {
-        // Обработка ошибок, если нужно
         console.error('Error updating pet data:', error);
         throw error;
     }
