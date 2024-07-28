@@ -1,53 +1,97 @@
 import React, { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { login, registerUser} from '../services/auth';
-import {Navigate, useNavigate} from "react-router-dom";
+import { useMutation } from '@tanstack/react-query';
+import {loginService, registerUser} from '../services/authService';
+import { useNavigate } from 'react-router-dom';
+import {
+    LoginContainer,
+    LoginForm,
+    FormGroup,
+    FormLabel,
+    FormInput,
+    LoginButton,
+    Title,
+    Message,
+    HighlightLink
+} from '../styles/LoginPageStyles';
+import { User } from "../types/data";
+import {Section} from "../styles/styles";
+
+interface RegistrationData {
+    email: string;
+    password: string;
+    username: string;
+}
 
 const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isRegistered, setIsRegistered] = useState(false);
+    const [username, setUsername] = useState('');
+    const navigate = useNavigate();
 
-    const queryClient = useQueryClient();
+    const registerMutation = useMutation({
+        mutationFn: (data: RegistrationData) => registerUser(data),
+        onSuccess: async () => {
+            try {
+                loginService({email, password})
 
-    const navigate = useNavigate()
-
-    // const {data, isLoading, isSuccess, isError } = useQuery({
-    //     queryKey: ['users'],
-    //     queryFn: getUsers
-    // });
-
-    const mutation = useMutation({
-        mutationFn: registerUser,
-        onSuccess: () => {
-            // Invalidate and refetch
-            queryClient.invalidateQueries({queryKey: ['users']})
-            login({email, password})
+                navigate('/');
+            } catch (error) {
+                console.error('Error logging in after registration:', error);
+            }
+        },
+        onError: (error) => {
+            console.error('Error registering user:', error);
         },
     });
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        mutation.mutate({ email, password });
+        registerMutation.mutate({ email, password, username });
     };
 
     return (
-        <div>
-            <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Register</button>
-            </form>
-            {/*{mutation.isError && <p>Error registering user</p>}*/}
-        </div>
+        <LoginContainer>
+            <LoginForm onSubmit={handleSubmit}>
+                <Title>Register</Title>
+                <FormGroup>
+                    <FormLabel>Username</FormLabel>
+                    <FormInput
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <FormLabel>Email</FormLabel>
+                    <FormInput
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <FormLabel>Password</FormLabel>
+                    <FormInput
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </FormGroup>
+                <LoginButton type="submit">Register</LoginButton>
+                <Message>
+                    Already registered?{' '}
+                    <HighlightLink href="#" onClick={() => navigate('login')}>
+                        Login
+                    </HighlightLink>
+                </Message>
+            </LoginForm>
 
+
+
+        </LoginContainer>
     );
 };
 

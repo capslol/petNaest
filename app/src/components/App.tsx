@@ -9,6 +9,7 @@ import { AuthProvider } from "../contexts/AuthContext";
 import SecureRoute from "../routes/SecureRoute";
 import PetCard from "./PetCard";
 import NotFound from "./NotFound";
+import GuestRoute from "../routes/guestRoute";
 
 const App: FC = () => {
 
@@ -18,8 +19,10 @@ const App: FC = () => {
             <AuthProvider>
                 <GlobalStyles/>
                 <Routes>
-                    <Route path="/login" element={<Login/>}/>
-                    <Route path="/register" element={<Register/>}/>
+                    <Route element={<GuestRoute/>}>
+                        <Route path="/register" element={<Register/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                    </Route>
                     <Route element={<SecureRoute/>}>
                         <Route path="/" element={<Home/>}/>
                         <Route path="/petCard/:petId" element={<PetCard/>}/>

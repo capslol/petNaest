@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {colors, Container, fonts, Header, Button, mixins, Section, Avatar} from '../styles/styles';
 import {useQuery} from "@tanstack/react-query";
-import {  getUserData} from "../services/auth";
+import {  getUserData} from "../services/authService";
 import { Box, Spinner} from "@chakra-ui/react";
 import { User} from "../types/data";
 import {useAuth} from "../contexts/AuthContext";
@@ -138,7 +138,7 @@ const HomePage = () => {
                 <UserInfo>
                     <Avatar imageurl="img/avatar1.png"/>
                     <Greeting>
-                        <UserName>Привет, {user?.name}!</UserName>
+                        <UserName>Привет, {user?.username}!</UserName>
                         {/*<Location>Bangalore, India</Location>*/}
                     </Greeting>
                 </UserInfo>

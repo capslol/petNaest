@@ -1,9 +1,12 @@
 export interface User {
     id: string;
-    name: string;
+    username: string;
     email: string;
-    password: string;
-    pets: Pet[];
+    provider: string,
+    confirmed: boolean,
+    blocked: boolean,
+    createdAt: string,
+    updatedAt: string
 }
 
 export interface Pet {
@@ -28,10 +31,24 @@ export interface Plan {
     location: string;
 }
 
+export interface RegistrationData {
+    username: string;
+    email: string;
+    password: string;
+}
+export interface LoginResponse {
+    jwt: string;
+    user: User;
+}
+
+export interface LoginData {
+    email: string;
+    password: string;
+}
 
 
 
-
-export interface UsersResponse {
-    users: User[];
+export interface createPetData {
+    name: string;
+    breed: string;
 }

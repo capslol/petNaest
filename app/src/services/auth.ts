@@ -3,6 +3,8 @@ import {Pet, Plan, User} from "../types/data";
 import {useToast} from "@chakra-ui/react";
 
 const API_URL = 'http://localhost:5000';
+const apiUrl = 'http://localhost:1337/api';
+
 
 interface LoginData {
     email: string;

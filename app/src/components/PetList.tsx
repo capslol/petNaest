@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { colors } from "../styles/styles";
 import { useNavigate } from "react-router-dom";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {createPet, getPetsData} from "../services/auth";
+import {createPet, getPets} from "../services/petService";
 import {
     Spinner,
     Box,
@@ -62,7 +62,7 @@ const PetList = () => {
 
     const { data: pets, isLoading, isError, error } = useQuery<Pet[]>({
         queryKey: ['petsData'],
-        queryFn: getPetsData,
+        queryFn: getPets,
     });
 
 
