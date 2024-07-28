@@ -11,9 +11,9 @@ interface LoginData {
 
 interface PetUpdateData {
     id: number;
-    name?: string;
-    breed?: string;
-    plans?: Plan[];
+    name: string;
+    breed: string;
+    plans: Plan[];
 }
 
 interface PetCreateData {
