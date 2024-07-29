@@ -9,6 +9,10 @@ import {Button, Column} from "../styles/styles";
 import {FiPlus} from "react-icons/fi";
 import {Input} from "@chakra-ui/react";
 import {FaCheck} from "react-icons/fa";
+import {getPet} from "../services/petService";
+import {getPlan} from "../services/planService";
+import {useQuery} from "@tanstack/react-query";
+import {log} from "util";
 
 interface PetPlansProps {
     pet: Pet | undefined
@@ -22,6 +26,14 @@ const PetPlans: FC<PetPlansProps> = ({pet}) => {
     const [isAddPlanModalOpen, setIsAddPlanModalOpen] = useState(false);
     const [newPlan, setNewPlan] = useState<Plan>({name: '', date:'', location: ''});
 
+    const {data: plans, isLoading, isError} = useQuery<Plan[]>({
+        queryKey: ['plansData'],
+        queryFn: () => getPlan(pet?.id),
+    });
+    useEffect(()=> {
+        console.log('pet plans mounted')
+    }, [])
+
 
 
     const handleChangeDate = (date: Date | null) => {
@@ -33,7 +45,7 @@ const PetPlans: FC<PetPlansProps> = ({pet}) => {
 
     const handleClick = (e: any) => {
         e.preventDefault();
-        setIsCalendarOpen(!isCalendarOpen);
+        setIsCalendarOpen(true);
     };
 
     const handleAddPlan = () => {
@@ -47,6 +59,7 @@ const PetPlans: FC<PetPlansProps> = ({pet}) => {
     const handleSave = () => {
         setIsAddPlanModalOpen(false);
     };
+
 
     return (
         <>
@@ -64,21 +77,13 @@ const PetPlans: FC<PetPlansProps> = ({pet}) => {
 
             </PlansHeader>
             <PlansList>
-                <PlanItem>{ pet?.plans && pet?.plans.map(plan => plan.name)}</PlanItem>
+                <PlanItem>{ plans?.map(plan => plan.name)}</PlanItem>
                 <div style={{display: "flex", justifyContent: "flex-end", flexDirection: "column"}}>
                     <button onClick={handleClick}
                             style={{display: "flex", justifyContent: "flex-end", alignItems: "flex-end",}}>
                         {format(startDate, "dd MMMM")}
                     </button>
-                    {isCalendarOpen && (
-                        <DatePicker
-                            selected={startDate}
-                            onChange={handleChangeDate}
-                            inline
-
-                        />
-                    )}
-                    {isAddPlanModalOpen && (
+                    {isCalendarOpen  && (
                         <DatePicker
                             selected={startDate}
                             onChange={handleChangeDate}

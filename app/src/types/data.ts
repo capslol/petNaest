@@ -14,6 +14,7 @@ export interface Pet {
     name: string;
     age: number;
     breed: string;
+    image: string;
     documents: Document[];
     vaccines: Vaccine[];
     plans: Plan[]
@@ -50,5 +51,10 @@ export interface LoginData {
 
 export interface createPetData {
     name: string;
+    breed: string;
+}
+export interface PetUpdateData {
+    name: string;
+    id: number;
     breed: string;
 }

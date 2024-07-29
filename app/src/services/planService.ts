@@ -7,31 +7,23 @@ const apiUrl = 'http://localhost:1337/api';
 
 
 
-export const getPets = async (): Promise<Pet[]> => {
-    const token = localStorage.getItem('accessToken');
 
-    const response = await axios.get(`${apiUrl}/pets?populate=image`,  {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }})
-    console.log(response.data);
-    return response.data.data.map((item: any) => transformPetData(item));
-}
 
-export const getPet = async (petId: number | null) => {
+export const getPlan = async (petId: number | undefined) => {
     const token = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
-    const url = `${apiUrl}/pets/${petId}?populate=image`;
+    const url = `${apiUrl}/plans?filters[pet_id][$eq]=${petId}`;
 
     const response = await axios.get(url, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
-    return transformPetData(response.data.data)
+    console.log(response.data.data.map((item: any) => transformPetData(item)))
+    return response.data.data.map((item: any) => transformPetData(item));
 };
 
-export const createPet = async ({name , breed}: createPetData)  => {
+export const createPlan = async ({name , breed}: createPetData)  => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('accessToken');
 
@@ -55,7 +47,7 @@ export const createPet = async ({name , breed}: createPetData)  => {
     }
 };
 
-export const updatePetData = async ({ id, name, breed }: PetUpdateData): Promise<Pet> => {
+export const updatePlan = async ({ id, name, breed }: PetUpdateData): Promise<Pet> => {
     const token = localStorage.getItem('accessToken');
     const userId = localStorage.getItem('userId');
     try {
@@ -81,7 +73,7 @@ export const updatePetData = async ({ id, name, breed }: PetUpdateData): Promise
     }
 };
 
-export const deletePet = async (petId: number | null)  => {
+export const deletePlan = async (petId: number | null)  => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('accessToken');
 

@@ -1,19 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {deletePet, getPet, updatePetData} from "../services/auth";
 import {Box, Input, Spinner, useToast} from "@chakra-ui/react";
 import {useAuth} from "../contexts/AuthContext";
 import GoBackButton from "./GoBackButton";
-import {Avatar, Button, colors, Column, Container, Header, mixins, Section} from "../styles/styles";
+import {Avatar, Button, Column, Container, Header, Section} from "../styles/styles";
 import {BsThreeDots} from "react-icons/bs";
 import {styled} from "styled-components";
 import {MdOutlineEdit} from "react-icons/md";
 import {useNavigate, useParams} from "react-router-dom";
-import {Pet, Plan} from "../types/data";
+import {Pet, PetUpdateData, Plan} from "../types/data";
 import {RiDeleteBinLine} from "react-icons/ri";
 import {FaCheck} from "react-icons/fa";
-import {FiPlus} from "react-icons/fi";
 import PetPlans from "./PetPlans";
+import {getPet, updatePetData, deletePet} from "../services/petService";
 
 
 const PetInfo = styled.section`
@@ -39,12 +38,7 @@ const PetBreed = styled.p`
 `;
 
 
-interface PetUpdateData {
-    id: number;
-    name?: string;
-    breed?: string;
-    plans?: Plan[];
-}
+
 
 
 const PetCard = () => {
@@ -56,12 +50,14 @@ const PetCard = () => {
     const navigate = useNavigate()
 
     const [isEditing, setIsEditing] = useState(false);
-    const [editedPet, setEditedPet] = useState<PetUpdateData>({id: petId ?? 0, name: '', breed: ''});
+    const [editedPet, setEditedPet] = useState<PetUpdateData>({id: petId ?? 0 , name: '', breed: ''});
 
     const {data: pet, isLoading, isError} = useQuery<Pet>({
         queryKey: ['petData'],
         queryFn: () => getPet(petId),
+
     });
+    console.log(pet)
 
     const mutation = useMutation({
         mutationFn: updatePetData,
@@ -124,9 +120,8 @@ const PetCard = () => {
             setIsEditing(true);
         }
     };
-
     const handleSave = () => {
-        // mutation.mutate(editedPet)
+        mutation.mutate(editedPet)
         setIsEditing(false);
     };
 
@@ -148,7 +143,7 @@ const PetCard = () => {
             </Header>
             <Section>
                 <PetInfo>
-                    <Avatar imageurl="img/dog-avatar.png"></Avatar>
+                    <Avatar imageurl={pet?.image}></Avatar>
                     {isEditing ? (
                         <>
                             <PetDetails>
@@ -178,11 +173,7 @@ const PetCard = () => {
             </Section>
 
             <Section>
-
-
                 <PetPlans pet={pet}/>
-
-
             </Section>
         </Container>
     );

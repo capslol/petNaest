@@ -65,7 +65,7 @@ const UserInfo = styled.div`
   align-items: center;
 `;
 
-export const Avatar = styled.div<{ imageurl: string }>`
+export const Avatar = styled.div<{ imageurl: string | undefined}>`
   display: flex;
   justify-content: center;
   align-items: center;
