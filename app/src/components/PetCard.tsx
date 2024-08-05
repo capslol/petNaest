@@ -42,6 +42,7 @@ const PetBreed = styled.p`
 
 
 const PetCard = () => {
+
     const {logout} = useAuth();
     const {petId: petIdString} = useParams<{ petId: string }>();
     const petId = petIdString ? parseInt(petIdString) : null;
@@ -57,7 +58,7 @@ const PetCard = () => {
         queryFn: () => getPet(petId),
 
     });
-    console.log(pet)
+
 
     const mutation = useMutation({
         mutationFn: updatePetData,

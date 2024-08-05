@@ -14,7 +14,6 @@ export const getPets = async (): Promise<Pet[]> => {
         headers: {
             Authorization: `Bearer ${token}`,
         }})
-    console.log(response.data);
     return response.data.data.map((item: any) => transformPetData(item));
 }
 
@@ -46,7 +45,6 @@ export const createPet = async ({name , breed}: createPetData)  => {
             }
         );
 
-        console.log(response.data);
 
         return response.data;
     } catch (error) {
@@ -95,7 +93,6 @@ export const deletePet = async (petId: number | null)  => {
             }
         );
 
-        console.log(response.data);
 
         return response.data;
     } catch (error) {

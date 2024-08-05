@@ -14,7 +14,6 @@ const nominals = {
 const atmq = (amount: number, nominals: Object) => {
 
     for (const nominal in nominals) {
-        console.log(nominal)
 
     }
 
@@ -26,7 +25,6 @@ const atmq = (amount: number, nominals: Object) => {
     //         result.push(`${nominal}x${count}`)
     //     }
     // }
-    // console.log('spring'.split(''))
     // return result
 
 
@@ -72,6 +70,5 @@ const atm = (amount: number, nominals: number[]) => {
             result.push(`${nominal}x${count}`)
         }
     }
-    console.log('spring'.split(''))
     return result
 }

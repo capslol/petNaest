@@ -27,6 +27,7 @@ export interface Document {
     fileName: string;
 }
 export interface Plan {
+    id: number;
     name: string;
     date: string;
     location: string;

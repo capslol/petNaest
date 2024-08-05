@@ -1,13 +1,8 @@
 import axios from 'axios';
-import {createPetData, Pet, PetUpdateData} from '../types/data';
-import {getUserData} from "./authService";
+import {createPetData, Pet, PetUpdateData, Plan} from '../types/data';
 import transformPetData from "./transformPetData";
 
 const apiUrl = 'http://localhost:1337/api';
-
-
-
-
 
 export const getPlan = async (petId: number | undefined) => {
     const token = localStorage.getItem('accessToken');
@@ -19,7 +14,6 @@ export const getPlan = async (petId: number | undefined) => {
             Authorization: `Bearer ${token}`,
         },
     });
-    console.log(response.data.data.map((item: any) => transformPetData(item)))
     return response.data.data.map((item: any) => transformPetData(item));
 };
 
@@ -38,7 +32,6 @@ export const createPlan = async ({name , breed}: createPetData)  => {
             }
         );
 
-        console.log(response.data);
 
         return response.data;
     } catch (error) {
@@ -47,26 +40,20 @@ export const createPlan = async ({name , breed}: createPetData)  => {
     }
 };
 
-export const updatePlan = async ({ id, name, breed }: PetUpdateData): Promise<Pet> => {
+export const updatePlan = async ({ id, ...updates }: Partial<Plan>): Promise<Plan> => {
     const token = localStorage.getItem('accessToken');
-    const userId = localStorage.getItem('userId');
     try {
-        const updatedPetData = {
-            data: {
-                id,
-                name,
-                breed,
-            }
+        const updatedData = {
+            data: updates
         };
-
         // Отправляем обновленные данные питомца на сервер
-        const updateResponse = await axios.put(`${apiUrl}/pets/${id}`, updatedPetData, {
+        const updateResponse = await axios.put(`${apiUrl}/plans/${id}`, updatedData, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         });
-
-        return updateResponse.data;
+        console.log(updateResponse.data)
+        transformPetData(updateResponse.data.data)
     } catch (error) {
         console.error('Error updating pet data:', error);
         throw error;
@@ -87,7 +74,6 @@ export const deletePlan = async (petId: number | null)  => {
             }
         );
 
-        console.log(response.data);
 
         return response.data;
     } catch (error) {

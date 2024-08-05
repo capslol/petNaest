@@ -1,6 +1,6 @@
 import { Pet } from '../types/data';
 
-const transformPetData = (data: any): Pet => {
+const transformPetData = (data: any): здесь чтоб был передаваемый интерфейс => {
     return {
         id: data.id,
         ...data.attributes,
